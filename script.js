@@ -4775,6 +4775,7 @@ let showingFront = true;
 const frontText = document.getElementById("frontText");
 const backText = document.getElementById("backText");
 const flashcard = document.getElementById("flashcard");
+const skipButton = document.getElementById("skipButton");
 
 function updateCard() {
   const card = flashcards[currentIndex];
@@ -4783,6 +4784,13 @@ function updateCard() {
   showingFront = true;
   backText.style.display = "none";
   frontText.style.display = "block";
+
+  // Show skip button at 200th, 400th, 600th, 800th cards
+  if ([199, 399, 599, 799].includes(currentIndex)) {
+    skipButton.style.display = "inline-block";
+  } else {
+    skipButton.style.display = "none";
+  }
 }
 
 function flipCard() {
@@ -4798,6 +4806,11 @@ function nextCard() {
 
 function prevCard() {
   currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+  updateCard();
+}
+
+function skipCard() {
+  currentIndex = (currentIndex + 1) % flashcards.length;
   updateCard();
 }
 
