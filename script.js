@@ -1728,7 +1728,7 @@ const flashcards = [
     "english": "The suitcase"
   },
   {
-    "spanish": "El pasaporte",
+    "spanish": "La pasaporte",
     "english": "The passport"
   },
   {
@@ -2438,6 +2438,10 @@ const flashcards = [
   {
     "spanish": "Bienvenido/a",
     "english": "Welcome (masculine/feminine)"
+  },
+  {
+    "spanish": "Lo siento, no entiendo",
+    "english": "Sorry, I don't understand"
   },
   {
     "spanish": "¿Puedes hablar más lento?",
@@ -4216,7 +4220,7 @@ const flashcards = [
     "english": "To take/drink"
   },
   {
-    "spanish": "Lener",
+    "spanish": "Tener",
     "english": "To have"
   },
   {
@@ -4329,7 +4333,7 @@ const flashcards = [
   },
   {
     "spanish": "Deber",
-    "english": "To must/should"
+    "english": "To should/must"
   },
   {
     "spanish": "Vivir",
@@ -4775,21 +4779,30 @@ let showingFront = true;
 const frontText = document.getElementById("frontText");
 const backText = document.getElementById("backText");
 const flashcard = document.getElementById("flashcard");
-const skipButton = document.getElementById("skipButton");
+const skipButton = document.getElementById("skipButton"); // Get the skip button element
 
 function updateCard() {
+  // Ensure currentIndex is always within valid bounds
+  if (currentIndex < 0) {
+    currentIndex = 0;
+  } else if (currentIndex >= flashcards.length) {
+    currentIndex = flashcards.length - 1;
+  }
+
   const card = flashcards[currentIndex];
   frontText.textContent = card.spanish;
   backText.textContent = card.english;
-  showingFront = true;
+  showingFront = true; // Always show front when changing cards
   backText.style.display = "none";
   frontText.style.display = "block";
 
-  // Show skip button at 200th, 400th, 600th, 800th cards
-  if ([199, 399, 599, 799].includes(currentIndex)) {
-    skipButton.style.display = "inline-block";
+  // Logic to show/hide the skip button
+  // The skip button should appear at the 200th, 400th, 600th, 800th, 1000th cards.
+  // Array indices are 0-based, so these correspond to indices 199, 399, 599, 799, 999.
+  if ([199, 399, 599, 799, 999].includes(currentIndex)) {
+    skipButton.style.display = "inline-block"; // Make the button visible
   } else {
-    skipButton.style.display = "none";
+    skipButton.style.display = "none"; // Hide the button
   }
 }
 
@@ -4809,10 +4822,26 @@ function prevCard() {
   updateCard();
 }
 
+// Function specifically for the "Skip" button (moves to the next card)
 function skipCard() {
-  currentIndex = (currentIndex + 1) % flashcards.length;
+  nextCard(); // Simply call nextCard to move to the next phrase
+}
+
+// New function to jump to a specific card index
+function jumpToCard(wordNumber) {
+  // Convert word number (1-based) to array index (0-based)
+  let targetIndex = wordNumber - 1;
+
+  // Validate the target index to ensure it's within the array bounds
+  if (targetIndex < 0) {
+    targetIndex = 0;
+  } else if (targetIndex >= flashcards.length) {
+    targetIndex = flashcards.length - 1; // Go to the last card if index is too high
+  }
+  
+  currentIndex = targetIndex;
   updateCard();
 }
 
 flashcard.addEventListener("click", flipCard);
-updateCard();
+updateCard(); // Initialize the first card on page load

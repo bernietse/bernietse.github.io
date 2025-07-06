@@ -34,7 +34,18 @@
       <button onclick="prevCard()">⬅️ Prev</button>
       <button onclick="flipCard()">🔄 Flip</button>
       <button onclick="nextCard()">➡️ Next</button>
+      <!-- The skip button, initially hidden -->
       <button id="skipButton" onclick="skipCard()" style="display: none;">⏭️ Skip</button>
+    </div>
+
+    <!-- New: Jump to Section Buttons -->
+    <div class="jump-controls" style="margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+      <p style="font-size: 0.9em; color: #555; width: 100%; margin-bottom: 5px;">Jump to:</p>
+      <button onclick="jumpToCard(200)">200</button>
+      <button onclick="jumpToCard(400)">400</button>
+      <button onclick="jumpToCard(600)">600</button>
+      <button onclick="jumpToCard(800)">800</button>
+      <button onclick="jumpToCard(1000)">1000</button>
     </div>
 
     <!-- Ad Unit 2 -->
